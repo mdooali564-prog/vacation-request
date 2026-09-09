@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>هتديني أجازة؟</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #fff1f5, #ffe4ec);
+    overflow: hidden;
+  }
+  .card {
+    width: min(92vw, 430px);
+    min-height: 420px;
+    padding: 42px 24px;
+    border-radius: 28px;
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 18px 50px rgba(180, 50, 90, .18);
+    text-align: center;
+    position: relative;
+  }
+  .emoji { font-size: 58px; margin-bottom: 18px; }
+  h1 {
+    margin: 0 0 12px;
+    font-size: clamp(28px, 8vw, 40px);
+    color: #35121f;
+  }
+  p {
+    margin: 0;
+    color: #7b5360;
+    font-size: 17px;
+  }
+  .buttons {
+    position: relative;
+    height: 150px;
+    margin-top: 35px;
+  }
+  button {
+    border: 0;
+    border-radius: 999px;
+    padding: 15px 28px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  #yes {
+    background: #e83e6f;
+    color: white;
+    box-shadow: 0 8px 18px rgba(232,62,111,.3);
+  }
+  #no {
+    background: #eee;
+    color: #444;
+    position: absolute;
+    left: 50%;
+    top: 78px;
+    transform: translateX(-50%);
+    transition: left .12s ease, top .12s ease;
+  }
+  #result {
+    display: none;
+    margin-top: 35px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #d62f62;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="emoji" id="emoji">🥺</div>
+    <h1>هتديني أجازة؟</h1>
+    <p>اختار إجابتك بكل حرية... 👀</p>
+
+    <div class="buttons" id="area">
+      <button id="yes">آه ❤️</button>
+      <button id="no">لأ 😈</button>
+    </div>
+
+    <div id="result">كنت عارف إنك مش هتخذلني 😂❤️</div>
+  </main>
+
+<script>
+const no = document.getElementById("no");
+const yes = document.getElementById("yes");
+const area = document.getElementById("area");
+const result = document.getElementById("result");
+const emoji = document.getElementById("emoji");
+
+function runAway(e) {
+  if (e) e.preventDefault();
+
+  const areaRect = area.getBoundingClientRect();
+  const btnRect = no.getBoundingClientRect();
+
+  const maxX = Math.max(0, areaRect.width - btnRect.width);
+  const maxY = Math.max(0, areaRect.height - btnRect.height);
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  no.style.left = x + "px";
+  no.style.top = y + "px";
+  no.style.transform = "none";
+}
+
+["mouseenter", "touchstart", "pointerdown"].forEach(eventName => {
+  no.addEventListener(eventName, runAway, {passive:false});
+});
+
+yes.addEventListener("click", () => {
+  document.querySelector("h1").textContent = "أحلى أجازة! 🎉";
+  document.querySelector("p").textContent = "تمت الموافقة بنجاح 😂";
+  emoji.textContent = "🥳";
+  no.style.display = "none";
+  yes.style.display = "none";
+  result.style.display = "block";
+});
+</script>
+</body>
+</html>
